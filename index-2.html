@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Register — Client Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">§</span>
+    <div>
+      <h1>The Register</h1>
+      <p class="brand-sub">Client Management</p>
+    </div>
+  </div>
+  <button class="btn btn-primary" id="addClientBtn">+ New Client</button>
+</header>
+
+<main>
+  <div class="controls">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search by name, client no. or mobile…">
+    <div class="chips" id="categoryChips">
+      <button class="chip active" data-cat="ALL">All</button>
+      <button class="chip" data-cat="GST">GST</button>
+      <button class="chip" data-cat="ITR">ITR</button>
+      <button class="chip" data-cat="LOAN">Loan / CMA</button>
+      <button class="chip" data-cat="MISC">Misc.</button>
+    </div>
+  </div>
+
+  <div class="ledger" id="ledgerHead">
+    <div class="ledger-row ledger-headrow">
+      <span class="col-no">Folio</span>
+      <span class="col-name">Name</span>
+      <span class="col-cat">Category</span>
+      <span class="col-mobile">Mobile</span>
+    </div>
+  </div>
+  <div class="ledger" id="clientList"></div>
+  <p class="empty-state" id="emptyState" hidden>No clients match your search. Try a different name or clear the filter.</p>
+</main>
+
+<!-- ADD / EDIT CLIENT MODAL -->
+<div class="overlay" id="addOverlay" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h2>New Client</h2>
+      <button class="icon-btn" id="closeAddModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label class="field-label">Category</label>
+      <select id="newCategorySelect" class="field-input">
+        <option value="GST">GST</option>
+        <option value="ITR">ITR</option>
+        <option value="LOAN">Loan / CMA</option>
+        <option value="MISC">Misc.</option>
+      </select>
+      <div id="newClientFields" class="field-grid"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="cancelAddBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveNewClientBtn">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENT DETAIL MODAL -->
+<div class="overlay" id="detailOverlay" hidden>
+  <div class="modal modal-wide">
+    <div class="modal-head">
+      <div>
+        <span class="stamp" id="detailStamp">GST</span>
+        <h2 id="detailName">Client Name</h2>
+        <p class="detail-folio" id="detailFolio">No. 000</p>
+      </div>
+      <button class="icon-btn" id="closeDetailModal">&times;</button>
+    </div>
+    <div class="modal-body" id="detailBody">
+      <!-- populated by app.js -->
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
