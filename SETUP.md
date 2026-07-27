@@ -42,6 +42,23 @@ Your repo: https://github.com/canitish780/Clientmanagementsystem
 - The GST monthly table's "Total Sales Value" field replaced "Taxable Value of Sales" (same underlying data column, just relabeled).
 - The Documents column in the monthly/yearly table now shows a single "Files" link that opens that period's Drive folder directly, instead of separate file-by-file links.
 
+## 5. This update: PWA (installable + offline), a proper logo, and Reminders
+
+**New files — all must be pushed to the repo root alongside index.html:**
+`manifest.json`, `sw.js`, `icon-192.png`, `icon-192-maskable.png`, `icon-512.png`, `icon-512-maskable.png`, `apple-touch-icon.png`, `favicon-32.png`, `favicon-64.png`.
+
+- **Installable app**: on Android Chrome you'll get an "Install app" prompt (or use the browser menu → "Add to Home screen"); on iPhone use Safari's Share → "Add to Home Screen". It'll open full-screen with its own icon, no browser bar.
+- **Offline**: the app shell (the page itself) is cached by a service worker, so it opens even with zero connection. Adding/editing clients or entries while offline is queued **in IndexedDB on your device** (much bigger storage capacity than before — important for document uploads) and syncs automatically the moment you're back online, checked instantly on reconnect and every ~60s while the app is open.
+  - **Honest limitation**: this protects you reliably whenever you reopen the app after being offline. It does *not* sync in the background while the app/tab is fully closed and your phone has no connection (that needs a different browser API with poor/no support on iPhone) — in practice this just means: reconnect and open the app once, and everything queued will sync within seconds.
+- **Logo**: replaced the "§" placeholder with a simple ledger-mark icon (three bars in a circle), used both in the header and as the installed app icon.
+- **Reminders** (🔔 icon next to dark mode, top right): shows anything due in the next 7 days —
+  - ITR client birthdays (from Birth Date)
+  - GST return filing (recurring, based on Filing Frequency — see the due-day constants at the top of `Code.gs`: `GST_MONTHLY_DUE_DAY`, `GST_QUARTERLY_DUE_DAY`/`GST_QUARTERLY_DUE_MONTHS` — **these are approximations**, since exact statutory due dates vary by state/scheme and change over time; adjust the numbers at the top of the script whenever needed)
+  - ITR return filing (recurring annually — `ITR_DUE_MONTH`/`ITR_DUE_DAY`, also adjust if the government extends the deadline)
+  - Any custom reminder you add for a specific client or a general note (e.g. payment follow-ups)
+  - Each reminder has **Mark Done**, **Message** (opens your phone's SMS app), and **Call** (dials them) — the latter two only appear if a mobile number is on file.
+  - "Mark Done" is remembered per occurrence (e.g. marking July's GST reminder done won't hide August's).
+
 ## 4. If you already have GST/ITR entries with a wrong-looking period (e.g. a date instead of "July 2025")
 
 This was a Google Sheets quirk (it auto-converted period text into a date). It's now fixed going forward. To apply the fix to your existing sheet and clean up old rows:
